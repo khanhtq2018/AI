@@ -40,33 +40,40 @@ classifier.add(Dense(units = 1, activation = 'sigmoid'))
 
 # Compiling the CNN
 classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
+classifier.summary()
 
-# Part 2 - Fitting the CNN to the images
+import os  
+if os.path.isfile('model.hd5')
+  classifier.load('model.hd5')
+else
+  # Part 2 - Fitting the CNN to the images
 
-from keras.preprocessing.image import ImageDataGenerator
+  from keras.preprocessing.image import ImageDataGenerator
 
-train_datagen = ImageDataGenerator(rescale = 1./255,
-                                   shear_range = 0.2,
-                                   zoom_range = 0.2,
-                                   horizontal_flip = True)
+  train_datagen = ImageDataGenerator(rescale = 1./255,
+                                     shear_range = 0.2,
+                                     zoom_range = 0.2,
+                                     horizontal_flip = True)
 
-test_datagen = ImageDataGenerator(rescale = 1./255)
+  test_datagen = ImageDataGenerator(rescale = 1./255)
 
-training_set = train_datagen.flow_from_directory('training_set',
-                                                 target_size = (224, 224),
-                                                 batch_size = 32,
-                                                 class_mode = 'binary')
+  training_set = train_datagen.flow_from_directory('training_set',
+                                                   target_size = (224, 224),
+                                                   batch_size = 32,
+                                                   class_mode = 'binary')
 
-test_set = test_datagen.flow_from_directory('test_set',
-                                            target_size = (224, 224),
-                                            batch_size = 32,
-                                            class_mode = 'binary')
+  test_set = test_datagen.flow_from_directory('test_set',
+                                              target_size = (224, 224),
+                                              batch_size = 32,
+                                              class_mode = 'binary')
 
-classifier.fit_generator(training_set,
-                         steps_per_epoch = 1200,
-                         epochs = 25,
-                         validation_data = test_set,
-                         validation_steps = 300)
+  classifier.fit_generator(training_set,
+                           steps_per_epoch = 1200,
+                           epochs = 15,
+                           validation_data = test_set,
+                           validation_steps = 300)
+
+  classifier.save('model.h5')
 
 # Part 3 - Making new predictions
 import numpy as np
