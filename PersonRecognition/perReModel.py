@@ -42,38 +42,39 @@ classifier.add(Dense(units = 1, activation = 'sigmoid'))
 classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
 classifier.summary()
 
+# Part 2 - Fitting the CNN to the images
+
+# Check whether trained model
 import os  
-if os.path.isfile('model.hd5')
-  classifier.load('model.hd5')
-else
-  # Part 2 - Fitting the CNN to the images
-
-  from keras.preprocessing.image import ImageDataGenerator
-
-  train_datagen = ImageDataGenerator(rescale = 1./255,
+if os.path.isfile('model.h5'):
+    classifier.load('model.h5')
+    print('The model is trained in last time')
+else:
+    print('Starting build the model...')
+    from keras.preprocessing.image import ImageDataGenerator
+    train_datagen = ImageDataGenerator(rescale = 1./255,
                                      shear_range = 0.2,
                                      zoom_range = 0.2,
                                      horizontal_flip = True)
-
-  test_datagen = ImageDataGenerator(rescale = 1./255)
-
-  training_set = train_datagen.flow_from_directory('training_set',
+    
+    test_datagen = ImageDataGenerator(rescale = 1./255)
+    
+    training_set = train_datagen.flow_from_directory('training_set',
                                                    target_size = (224, 224),
                                                    batch_size = 32,
                                                    class_mode = 'binary')
-
-  test_set = test_datagen.flow_from_directory('test_set',
+    
+    test_set = test_datagen.flow_from_directory('test_set',
                                               target_size = (224, 224),
                                               batch_size = 32,
                                               class_mode = 'binary')
-
-  classifier.fit_generator(training_set,
+    classifier.fit_generator(training_set,
                            steps_per_epoch = 1200,
-                           epochs = 15,
+                           epochs = 25,
                            validation_data = test_set,
                            validation_steps = 300)
-
-  classifier.save('model.h5')
+    classifier.save('model.h5')
+    print('The model is trained and saved successfully')
 
 # Part 3 - Making new predictions
 import numpy as np
