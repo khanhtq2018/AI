@@ -1,2 +1,0 @@
-# AI
-Build AI projects
