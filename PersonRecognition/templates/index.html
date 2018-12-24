@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Person Image Recognition</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+</head>
+<body>
+	<div class="container">
+		<form method="post" action="/classify" enctype="multipart/form-data">
+			<input type="file" name="img" id="img" accept="image/*"><img src="data:image/jpeg;base64,{{ srcImg }}" id="img-tag" width="200px" />
+			<label for="img" name="imgLabel" id="imgLabel">{{ result }}</label>
+		</form>
+	</div>
+
+	<script type="text/javascript">
+		$(document).ready(function(){	
+			$('input[type="file"]').change(function(e){
+				$( "form" ).submit();
+			});
+
+			/* 
+			function readURL(input) {
+				if (input.files && input.files[0]) {
+					var reader = new FileReader();
+					reader.onload = function (e) {
+						$('#img-tag').attr('src', e.target.result);
+					}
+					reader.readAsDataURL(input.files[0]);
+				}
+			}
+			$("#img").change(function(){
+				readURL(this);
+			});
+			
+			$.ajax({
+				url: '/classify',
+				data: $('form').serialize() +'&binaryImg='+base64String,
+				type: 'POST',
+				success: function(response) {
+					console.log(response);
+					 $('#imgLabel').text(response);
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+			*/
+		});
+	</script>
+</body>
+</html>
